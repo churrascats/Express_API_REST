@@ -1,9 +1,15 @@
+const members = require("./Members")
+
 const express = require("express");
-const path = require("path")
+const path = require("path");
 
-const app = express()
-const PORT = process.env.PORT || 5000
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(express.static(path.join(__dirname, "public")))
+app.get("/api/members/", (req,res) => {
+    res.json(members)
+})
 
-app.listen(PORT, () => console.log(`Server running at port ${PORT}`))
+app.use(express.static(path.join(__dirname, "public")));
+
+app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
