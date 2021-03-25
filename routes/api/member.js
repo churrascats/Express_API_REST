@@ -59,4 +59,18 @@ router.put("/:id", (req,res) => {
   }
 })
 
+router.delete("/:id", (req,res) => {
+  const found = members.some(member => member.id === parseInt(req.params.id))
+
+  if(found){
+    const indexToDelete = members.findIndex((member, index) => member.id === parseInt(req.params.id))
+
+    members.splice(indexToDelete, 1)
+    res.json(members)
+  }
+  else{
+    res.status(400).json({msg : `ID : ${req.params.id} doesn't associate with a member!`})
+  }
+})
+
 module.exports = router
