@@ -21,17 +21,18 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   const newMember = {
     id: uuid.v4(),
-    name: req.body.name,
-    email: req.body.email,
+    title: req.body.title,
+    body: req.body.body,
     status: "active"
   }
 
-  if(!newMember.name || !newMember.email){
+  if(!newMember.title || !newMember.body){
     return res.status(400).json({msg: "Please include a name and an email"})
   }
   else{
     members.push(newMember)
-    res.json(members)
+    //res.json(members) Disabled in order to use templates
+    res.redirect("/")
   }
 });
 
