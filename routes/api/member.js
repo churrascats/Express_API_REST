@@ -3,8 +3,10 @@ const uuid = require("uuid")
 const router = express.Router()
 const members = require("../../Members");
 
+//This route retrieves all members already registered
 router.get("/", (req, res) => res.json(members));
 
+//This route retrieve an specific member based on id passed by url
 router.get("/:id", (req, res) => {
   const found = members.some((member) => member.id === parseInt(req.params.id));
 
@@ -15,6 +17,7 @@ router.get("/:id", (req, res) => {
   }
 });
 
+//This route is used to create a new member
 router.post("/", (req, res) => {
   const newMember = {
     id: uuid.v4(),
@@ -31,5 +34,29 @@ router.post("/", (req, res) => {
     res.json(members)
   }
 });
+
+router.put("/:id", (req,res) => {
+  const found = members.some(member => member.id === parseInt(req.params.id))
+
+  if(found){
+    const memberUpdate = req.body
+
+    members.forEach((member, index) => {
+      let response
+      if(member.id === parseInt(req.params.id)){
+        response =  {...memberUpdate}
+      }
+      else{
+        response = {...member}
+      }
+
+      members[index] = {...response}
+    }) 
+    res.json(members)
+  }
+  else{
+    res.status(400).json({msg : `ID : ${req.params.id} doesn't associate with a member!`})
+  }
+})
 
 module.exports = router
