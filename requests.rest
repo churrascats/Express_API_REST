@@ -1,0 +1,38 @@
+GET http://localhost:5000/api/members
+
+###
+
+GET http://localhost:5000/api/members/8c694e13-7b43-4034-80b5-2a5e96355de8
+
+###
+
+POST http://localhost:5000/api/members HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "Member 8",
+    "body": "body 8"
+}
+
+###
+PUT http://localhost:5000/api/members/c6932d33-f4b3-4380-a8e1-cd438af6c264 HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "Member 9 ALTERADO",
+    "body": "body 8 ALTERADO"
+}
+###
+
+PATCH http://localhost:5000/api/members/c6932d33-f4b3-4380-a8e1-cd438af6c264 HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "Member 8 ALTERADO",
+    "body": "body 8 ALTERADO"
+}
+
+###
+
+DELETE http://localhost:5000/api/members/c6932d33-f4b3-4380-a8e1-cd438af6c263 HTTP/1.1
+

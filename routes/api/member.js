@@ -8,10 +8,10 @@ router.get("/", (req, res) => res.json(members));
 
 //This route retrieve an specific member based on id passed by url
 router.get("/:id", (req, res) => {
-  const found = members.some((member) => member.id === parseInt(req.params.id));
+  const found = members.some((member) => member.id === req.params.id);
 
   if (found) {
-    res.json(members.filter((member) => member.id === parseInt(req.params.id)));
+    res.json(members.filter((member) => member.id === req.params.id));
   } else {
     res.status(400).json({ msg: `No member with the id of ${req.params.id}` });
   }
@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
   }
 
   if(!newMember.title || !newMember.body){
-    return res.status(400).json({msg: "Please include a name and an email"})
+    return res.status(400).json({msg: "Please include a title and an body"})
   }
   else{
     members.push(newMember)
@@ -37,15 +37,39 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req,res) => {
-  const found = members.some(member => member.id === parseInt(req.params.id))
+  const found = members.some(member => member.id === req.params.id)
 
   if(found){
     const memberUpdate = req.body
 
     members.forEach((member, index) => {
       let response
-      if(member.id === parseInt(req.params.id)){
-        response =  {...memberUpdate}
+      if(member.id === req.params.id){
+        response =  {...member, ...memberUpdate}
+      }
+      else{
+        response = {...member}
+      }
+
+      members[index] = {...response}
+    }) 
+    res.json(members)
+  }
+  else{
+    res.status(400).json({msg : `ID : ${req.params.id} doesn't associate with a member!`})
+  }
+})
+
+router.patch("/:id", (req,res) => {
+  const found = members.some(member => member.id === req.params.id)
+
+  if(found){
+    const memberUpdate = req.body
+
+    members.forEach((member, index) => {
+      let response
+      if(member.id === req.params.id){
+        response =  {...member, ...memberUpdate}
       }
       else{
         response = {...member}
@@ -61,10 +85,10 @@ router.put("/:id", (req,res) => {
 })
 
 router.delete("/:id", (req,res) => {
-  const found = members.some(member => member.id === parseInt(req.params.id))
+  const found = members.some(member => member.id === req.params.id)
 
   if(found){
-    const indexToDelete = members.findIndex((member, index) => member.id === parseInt(req.params.id))
+    const indexToDelete = members.findIndex((member, index) => member.id === req.params.id)
 
     members.splice(indexToDelete, 1)
     res.json(members)
